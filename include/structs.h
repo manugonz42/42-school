@@ -33,6 +33,7 @@ typedef struct	s_data
 	pthread_mutex_t	waiter;
 	pthread_mutex_t	barrier;
 	pthread_mutex_t	print;
+	pthread_mutex_t	end_mutex;
 	pthread_t		t_waiter;
 	t_philo			*philos;
 }	t_data;

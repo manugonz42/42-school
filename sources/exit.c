@@ -27,6 +27,17 @@ void	ft_clean_all(t_data *data)
 	free(data->philos);
 }
 
+void	ft_thread_fail(t_data *data)
+{
+	pthread_mutex_lock(&data->end_mutex);
+	data->end = 1;
+	pthread_mutex_lock(&data->end_mutex);
+	pthread_mutex_unlock(&data->barrier);
+	ft_usleep(500);
+	ft_clean_all(data);
+	ft_error_message("Error creating thread");
+}
+
 void    ft_error_message(char *s)
 {
     ft_putstr_fd(RED "Error: " YELLOW, STDERR_FILENO);

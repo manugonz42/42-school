@@ -24,6 +24,7 @@ int	main(int argc, char *argv[])
         return 1;
     }
 	ft_start_data(argc, argv, data);
+	ft_init_gmutex(data);
 	ft_init_forks(data);
 	ft_init_philos(data);
 	ft_init_threads(data);

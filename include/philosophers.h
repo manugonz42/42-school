@@ -24,16 +24,20 @@
 
 //--------functs
 int			ft_check_input(int argc, char *argv[]);
-void		ft_start_data(int argc, char *argv[], t_data *data);
-void		ft_init_philos(t_data *data);
 void		ft_check_philos(t_data *data);
 void		*ft_barrier(void *a);
 void		ft_wait_threads(t_data *data);
+
+//--------starting
+void		ft_start_data(int argc, char *argv[], t_data *data);
+void		ft_init_philos(t_data *data);
+void	    ft_init_gmutex(t_data *data);
 
 //--------threads
 void		ft_supervisor(t_data *data);
 void		ft_init_forks(t_data *data);
 void		ft_init_threads(t_data *a);
+void    	ft_create_waiter(t_data *data);
 void	    *ft_waiter(void *a);
 
 //--------routine
@@ -42,7 +46,10 @@ void		ft_taKe_forks(t_philo *philo);
 void		ft_eat(t_philo *philo);
 void        ft_check_eated(t_philo *philo);
 
-
+//---------ending
+void	ft_error_message(char *s);
+void	ft_clean_all(t_data *data);
+void	ft_thread_fail(t_data *data);
 
 //--------utils
 u_int64_t	ft_get_time(void);
@@ -54,9 +61,6 @@ void		ft_count_down(int seconds);
 void		ft_print(t_philo *philo, char *str);
 void		ft_usleep(useconds_t time);
 
-//---------ending
-void	ft_error_message(char *s);
-void	ft_clean_all(t_data *data);
 
 # define INANITION (ft_get_time() - data->philos[i].last_eat) >= data->tt_die && data->philos[i].eating == 0
 

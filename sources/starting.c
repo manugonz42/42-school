@@ -63,3 +63,27 @@ void	ft_init_philos(t_data *data)
 	}
 }
 
+void	ft_init_gmutex(t_data *data)
+{
+	if (pthread_mutex_init(&data->end_mutex, NULL))
+	{
+		free(data->forks);
+		free(data->philos);
+		ft_error_message("Mutex initialization failed.");
+	}
+	data->end_mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	if (pthread_mutex_init(&data->barrier, NULL))
+	{
+		free(data->forks);
+		free(data->philos);
+		ft_error_message("Mutex initialization failed.");
+	}
+	data->barrier = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	if (pthread_mutex_init(&data->print, NULL))
+	{
+		free(data->forks);
+		free(data->philos);
+		ft_error_message("Mutex initialization failed.");
+	}
+	data->print = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+}

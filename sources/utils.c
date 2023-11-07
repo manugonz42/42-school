@@ -3,11 +3,14 @@
 void	ft_print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->end_mutex);
 	if(philo->data->end == 1)
 	{
+		pthread_mutex_unlock(&philo->data->end_mutex);
 		pthread_mutex_unlock(&philo->data->print);
 		return ;
 	}
+	pthread_mutex_unlock(&philo->data->end_mutex);
 	printf(BLUE"[%ld ms]" CYAN" Philosopher " GREEN"{%i} " YELLOW"%s"RESET"\n", \
 		ft_get_time() - philo->data->start_time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->print);
