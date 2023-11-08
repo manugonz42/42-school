@@ -4,7 +4,7 @@ TARGET = philo
 
 # Archives
 SOURCEDIR = sources/
-SOURCES = main.c checking.c utils.c exit.c routine.c starting.c threads.c
+SOURCES = main.c utils.c exit.c routine.c starting.c threads.c
 SOURCES := $(addprefix $(SOURCEDIR), $(SOURCES))
 
 #Libraries

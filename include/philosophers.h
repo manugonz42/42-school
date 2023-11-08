@@ -22,11 +22,9 @@
 # define INT_MAX	__INT_MAX__
 # define INT_MIN	-2147483648
 
-//--------functs
+//--------main
 int			ft_check_input(int argc, char *argv[]);
-void		ft_check_philos(t_data *data);
 void		*ft_barrier(void *a);
-void		ft_wait_threads(t_data *data);
 
 //--------starting
 void		ft_start_data(int argc, char *argv[], t_data *data);
