@@ -42,7 +42,7 @@ void	    *ft_waiter(void *a);
 
 //--------routine
 void		ft_routine(t_philo *philo);
-void		ft_taKe_forks(t_philo *philo);
+int 		ft_taKe_forks(t_philo *philo);
 void		ft_eat(t_philo *philo);
 void        ft_check_eated(t_philo *philo);
 

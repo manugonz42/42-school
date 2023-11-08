@@ -19,6 +19,8 @@ void	ft_clean_all(t_data *data)
 	int i;
 
 	i = -1;
+
+	printf("Cleaning...\n");
 	while (++i < data->n_of_philos)
 		pthread_mutex_destroy(&data->forks[i]);
 	pthread_mutex_destroy(&data->waiter);

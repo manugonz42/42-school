@@ -24,8 +24,11 @@ void	*ft_waiter(void *a)
 				GREEN"%li" YELLOW" times."RESET"\n", data->times_teat);
 			pthread_mutex_unlock(&data->print);
 			pthread_mutex_unlock(&data->waiter);
+			printf("1\n");
 			ft_usleep(500);
+			printf("2\n");
 			ft_clean_all(data);
+			printf("3\n");
 			return NULL;
 		}
 		pthread_mutex_unlock(&data->waiter);
@@ -71,6 +74,7 @@ void	ft_supervisor(t_data *data)
 		if (data->end == 1)
 		{
 			pthread_mutex_unlock(&data->end_mutex);
+			ft_usleep(500);
 			return ;
 		}
 		pthread_mutex_unlock(&data->end_mutex);
@@ -85,6 +89,7 @@ void	ft_supervisor(t_data *data)
 				{
 					pthread_mutex_unlock(&data->end_mutex);
 					pthread_mutex_unlock(&data->barrier);
+					ft_usleep(500);
 					return ;
 				}
 				data->end = 1;
@@ -117,7 +122,8 @@ void    ft_init_threads(t_data *data)
 		data->started_philos++;
     }
 	
-    ft_count_down(4);
+    //ft_count_down(4);
+	ft_usleep(500);
     ft_supervisor(data);
 }
 

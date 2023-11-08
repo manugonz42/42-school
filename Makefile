@@ -31,10 +31,10 @@ OBJECTS = $(SOURCES:.c=.o)
 
 # Rules
 all: $(TARGET)
-
+#clang -fsanitize=thread
 $(TARGET): $(OBJECTS)
 	@echo "$(CYAN)--Compiling $(BLUE)philo$(RESET)"
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+	$(CC) -o $(TARGET) $(OBJECTS)
 	@echo "$(CYAN)--Ready$(WHITE)"
 
 # Cleaning
