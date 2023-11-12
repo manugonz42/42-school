@@ -1,6 +1,6 @@
 #include "philosophers.h"
 
-void	ft_print(t_philo *philo, char *str)
+int	ft_print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->end_mutex);
@@ -8,12 +8,13 @@ void	ft_print(t_philo *philo, char *str)
 	{
 		pthread_mutex_unlock(&philo->data->end_mutex);
 		pthread_mutex_unlock(&philo->data->print);
-		return ;
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->data->end_mutex);
 	printf(BLUE"[%ld ms]" CYAN" Philosopher " GREEN"{%i} " YELLOW"%s"RESET"\n", \
 		ft_get_time() - philo->data->start_time, philo->philo_id, str);
 	pthread_mutex_unlock(&philo->data->print);
+	return (1);
 }
 
 void	ft_usleep(useconds_t time)

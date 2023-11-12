@@ -56,10 +56,10 @@ void		ft_putchar_fd(char c, int fd);
 int	 		ft_isdigit(char *s);
 int	 		ft_atoi(const char *nptr);
 void		ft_count_down(int seconds);
-void		ft_print(t_philo *philo, char *str);
+int 		ft_print(t_philo *philo, char *str);
 void		ft_usleep(useconds_t time);
 
 
-# define INANITION (ft_get_time() - data->philos[i].last_eat) >= data->tt_die && data->philos[i].eating == 0
+# define STARVATION (ft_get_time() - data->philos[i].last_eat) >= data->tt_die && data->philos[i].eating == 0
 
 #endif

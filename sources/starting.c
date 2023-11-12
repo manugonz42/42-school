@@ -20,6 +20,7 @@ void	ft_start_data(int argc, char *argv[], t_data *data)
 	data->end = 0;
 	if (argc == 6)
 	{
+		data->t_waiter = 0;
 		data->times_teat = ft_atoi(argv[5]);
 		if (pthread_mutex_init(&data->waiter, NULL))
 		{
@@ -31,12 +32,6 @@ void	ft_start_data(int argc, char *argv[], t_data *data)
 	}
 	else	
 		data->times_teat = -1;
-	if (pthread_mutex_init(&data->barrier, NULL))
-		ft_error_message("Mutex initialization failed.");
-	data->barrier = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
-	if (pthread_mutex_init(&data->print, NULL))
-		ft_error_message("Mutex initialization failed.");
-	data->print = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
 void	ft_init_philos(t_data *data)

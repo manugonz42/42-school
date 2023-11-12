@@ -25,6 +25,8 @@ void	ft_clean_all(t_data *data)
 		pthread_mutex_destroy(&data->forks[i]);
 	pthread_mutex_destroy(&data->waiter);
 	pthread_mutex_destroy(&data->barrier);
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->end_mutex);
 	free(data->forks);
 	free(data->philos);
 }

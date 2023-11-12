@@ -3,6 +3,8 @@
 void	*ft_waiter(void *a)
 {
 	t_data *data;
+	int	i;
+
 	data = (t_data *)a;
 	while(1)
 	{
@@ -24,11 +26,10 @@ void	*ft_waiter(void *a)
 				GREEN"%li" YELLOW" times."RESET"\n", data->times_teat);
 			pthread_mutex_unlock(&data->print);
 			pthread_mutex_unlock(&data->waiter);
-			printf("1\n");
-			ft_usleep(500);
-			printf("2\n");
-			ft_clean_all(data);
-			printf("3\n");
+			i = -1;
+			while (++i < data->n_of_philos)
+				pthread_join(data->philos[i].thread, NULL);
+			printf("Waiter ending...\n");
 			return NULL;
 		}
 		pthread_mutex_unlock(&data->waiter);
@@ -48,15 +49,7 @@ void	ft_create_waiter(t_data *data)
 		ft_clean_all(data);
 		ft_error_message("Error creating thread");
 	}
-	if (pthread_detach(data->t_waiter) != 0)
-	{
-		pthread_mutex_lock(&data->end_mutex);
-		data->end = 1;
-		pthread_mutex_unlock(&data->end_mutex);
-		ft_usleep(500);
-		ft_clean_all(data);
-		ft_error_message("Error detaching thread");
-	}
+
 }
 
 void	ft_supervisor(t_data *data)
@@ -74,7 +67,8 @@ void	ft_supervisor(t_data *data)
 		if (data->end == 1)
 		{
 			pthread_mutex_unlock(&data->end_mutex);
-			ft_usleep(500);
+			pthread_join(data->t_waiter, NULL);
+			ft_clean_all(data);
 			return ;
 		}
 		pthread_mutex_unlock(&data->end_mutex);
@@ -82,30 +76,61 @@ void	ft_supervisor(t_data *data)
 		while(++i < data->n_of_philos)
 		{
 			pthread_mutex_lock(&data->barrier);
-			if(INANITION)
+			if(STARVATION)
 			{
 				pthread_mutex_lock(&data->end_mutex);
 				if (data->end == 1)
 				{
 					pthread_mutex_unlock(&data->end_mutex);
 					pthread_mutex_unlock(&data->barrier);
-					ft_usleep(500);
+					pthread_join(data->t_waiter, NULL);
+					ft_clean_all(data);
 					return ;
 				}
 				data->end = 1;
 				pthread_mutex_unlock(&data->end_mutex);
+				pthread_mutex_lock(&data->print);
 				printf(BLUE"[%ld ms]" CYAN" Philosopher " GREEN"{%i} " RED"died"RESET"\n", \
 					ft_get_time() - data->start_time, data->philos[i].philo_id);
+				pthread_mutex_unlock(&data->print);
 				pthread_mutex_unlock(&data->barrier);
-				ft_usleep(500);
+				i = -1;
+				while (++i < data->n_of_philos)
+					pthread_join(data->philos[i].thread, NULL);
+				pthread_join(data->t_waiter, NULL);
+				printf("Supervisor Cleaning...\n");
 				ft_clean_all(data);
 				return ;
 			}
 			pthread_mutex_unlock(&data->barrier);
 			usleep(500);
 		}
-		ft_usleep(500);
+		usleep(1000);
 	}
+}
+
+void	ft_print_all_memory_addresses(t_data *data)
+{
+	printf("data %p\n", data);
+	printf("data->forks: %p\n", data->forks);
+	printf("data->philos: %p\n", data->philos);
+	printf("data->print: %p\n", &data->print);
+	printf("data->end_mutex: %p\n", &data->end_mutex);
+	printf("data->barrier: %p\n", &data->barrier);
+	printf("data->waiter: %p\n", &data->waiter);
+	printf("data->end: %p\n", &data->end);
+	printf("data->start_time: %p\n", &data->start_time);
+	printf("data->started_philos: %p\n", &data->started_philos);
+	printf("data->t_waiter: %p\n", &data->t_waiter);
+	int i = -1;
+	while (++i < data->n_of_philos){
+		printf("	*data->philos[%i] %p\n", i, &data->philos[i]);
+		printf("data->philos[%i].eating %p\n", i, &data->philos[i].eating);
+		printf("data->philos[%i].started %p\n", i, &data->philos[i].started);
+		printf("data->philos[%i].last eat %p\n", i, &data->philos[i].last_eat);
+		printf("data->forks[%i] %p\n", i, &data->forks[i]);
+		printf("data->philos[%i].r_fork %p\n", i, data->philos[i].r_fork);
+		printf("data->philos[%i].l_fork %p\n", i, data->philos[i].l_fork);}
 }
 
 void    ft_init_threads(t_data *data)
@@ -117,13 +142,12 @@ void    ft_init_threads(t_data *data)
     {
         if (pthread_create(&data->philos[i].thread, NULL, &ft_barrier, (void *)&data->philos[i]) != 0)
 			ft_thread_fail(data);
-        if (pthread_detach(data->philos[i].thread) != 0)
-			ft_thread_fail(data);
 		data->started_philos++;
     }
 	
     //ft_count_down(4);
 	ft_usleep(500);
+	ft_print_all_memory_addresses(data);
     ft_supervisor(data);
 }
 
