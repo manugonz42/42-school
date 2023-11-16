@@ -4,7 +4,7 @@ TARGET = philo
 
 # Archives
 SOURCEDIR = sources/
-SOURCES = main.c utils.c exit.c routine.c starting.c threads.c
+SOURCES = main.c utils.c exit.c routine.c starting.c threads.c waiter.c
 SOURCES := $(addprefix $(SOURCEDIR), $(SOURCES))
 
 #Libraries
@@ -34,7 +34,7 @@ all: $(TARGET)
 #clang -fsanitize=thread
 $(TARGET): $(OBJECTS)
 	@echo "$(CYAN)--Compiling $(BLUE)philo$(RESET)"
-	$(CC) -o $(TARGET) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 	@echo "$(CYAN)--Ready$(WHITE)"
 
 # Cleaning

@@ -1,9 +1,9 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct	s_data t_data;
+typedef struct s_data	t_data;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	t_data			*data;
 	int				started;
@@ -17,12 +17,10 @@ typedef struct	s_philo
 	pthread_mutex_t	*r_fork;
 }	t_philo;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int				started_philos;	
 	int				n_of_philos;
-	int				game_alive;
-	int				printd;
 	int				end;
 	u_int64_t		tt_die;
 	u_int64_t		start_time;

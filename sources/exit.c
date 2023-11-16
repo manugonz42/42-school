@@ -7,20 +7,18 @@ void	ft_putchar_fd(char c, int fd)
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while(s[++i])
+	while (s[++i])
 		ft_putchar_fd(s[i], fd);
 }
 
 void	ft_clean_all(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = -1;
-
-	printf("Cleaning...\n");
 	while (++i < data->n_of_philos)
 		pthread_mutex_destroy(&data->forks[i]);
 	pthread_mutex_destroy(&data->waiter);
@@ -42,10 +40,10 @@ void	ft_thread_fail(t_data *data)
 	ft_error_message("Error creating thread");
 }
 
-void    ft_error_message(char *s)
+void	ft_error_message(char *s)
 {
-    ft_putstr_fd(RED "Error: " YELLOW, STDERR_FILENO);
-    ft_putstr_fd(s, STDERR_FILENO);
-    ft_putstr_fd(RESET "\n", STDERR_FILENO);
-    exit(EXIT_FAILURE);
+	ft_putstr_fd(RED "Error: " YELLOW, STDERR_FILENO);
+	ft_putstr_fd(s, STDERR_FILENO);
+	ft_putstr_fd(RESET "\n", STDERR_FILENO);
+	exit (EXIT_FAILURE);
 }

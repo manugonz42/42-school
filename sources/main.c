@@ -1,5 +1,28 @@
 #include "../include/philosophers.h"
 
+void	ft_count_down(int seconds)
+{
+	int	j;
+
+	system("clear");
+	printf(CYAN"Simulation starting in:\n\n");
+	while (seconds-- > 1)
+	{
+		printf(CYAN" %d "RESET, seconds);
+		ft_usleep(222);
+		j = -1;
+		while (++j < 3)
+		{
+			printf(". ");
+			fflush(stdout);
+			ft_usleep(222);
+		}
+		printf("\033[2K");
+		printf("\r");
+	}
+	printf(GREEN"	🏁🏁🏁🏁🏁 ¡GO! 🏁🏁🏁🏁🏁\n\n"RESET);
+}
+
 int	ft_check_input(int argc, char *argv[])
 {
 	int	i;
@@ -7,16 +30,16 @@ int	ft_check_input(int argc, char *argv[])
 	if (argc == 5)
 	{
 		i = 0;
-		while(++i < 5)
-			if(!ft_isdigit(argv[i]))
+		while (++i < 5)
+			if (!ft_isdigit(argv[i]))
 				ft_error_message("All parameters must be numbers.");
 		return (1);
 	}
 	if (argc == 6)
 	{
 		i = 0;
-		while(++i < 6)
-			if(!ft_isdigit(argv[i]))
+		while (++i < 6)
+			if (!ft_isdigit(argv[i]))
 				ft_error_message("All parameters must be numbers.");
 		return (1);
 	}
@@ -26,7 +49,7 @@ int	ft_check_input(int argc, char *argv[])
 
 void	*ft_barrier(void *x)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)x;
 	philo->started = 1;
@@ -38,20 +61,20 @@ void	*ft_barrier(void *x)
 
 int	main(int argc, char *argv[])
 {
-    t_data *data;
-	
+	t_data	*data;
+
 	ft_check_input(argc, argv);
 	data = (t_data *)malloc(sizeof(t_data));
-    if (data == NULL)
-    {
-        ft_error_message("malloc failed");
-        return 1;
-    }
+	if (data == NULL)
+	{
+		ft_error_message("malloc failed");
+		return (1);
+	}
 	ft_start_data(argc, argv, data);
 	ft_init_gmutex(data);
 	ft_init_forks(data);
 	ft_init_philos(data);
 	ft_init_threads(data);
 	free(data);
-    return 0;
+	return (0);
 }
